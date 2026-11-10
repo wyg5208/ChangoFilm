@@ -503,7 +503,8 @@ const stuck = async (/** @type {import('playwright-core').Page} */ page) =>
 
 /** One web page in one browser tab. */
 export class FilmPage {
-  static async open(browser, origin, entry, { scale = 1, size = null, transparent = false, black = false, offline = false, network = {}, waitMs = 10_000, readyMs = READY_MS, onVideoNotShown = videoNotShown } = {}) {
+  // waitMs 本地放宽到 30 s（2026-11-10）：one-prompt 例子的重页在软件 WebGL 下冷启动实测 12.9–15.1 s，原 10 s 会误杀
+  static async open(browser, origin, entry, { scale = 1, size = null, transparent = false, black = false, offline = false, network = {}, waitMs = 30_000, readyMs = READY_MS, onVideoNotShown = videoNotShown } = {}) {
     const film = new FilmPage();
     film.problems = [];
     film.onVideoNotShown = onVideoNotShown;

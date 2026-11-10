@@ -665,7 +665,8 @@ function wakePage(c) {
     const film = () => (el.contentDocument !== before ? el.contentWindow?.film : null);
     while (!(film() && typeof film().frame === 'function')) {
       if (c.waking !== mine) return;
-      if (performance.now() - t0 > 10000) throw new Error(`${c.row.src}: window.film with a frame() function did not appear`);
+      // 本地放宽：one-prompt 例子最重的页（chorus/verse-2）冷启动实测 12.9–15.1 s，原 10 s 线不够（2026-11-10）
+      if (performance.now() - t0 > 30000) throw new Error(`${c.row.src}: window.film with a frame() function did not appear`);
       await new Promise((r) => setTimeout(r, 20));
     }
     const win = el.contentWindow;
